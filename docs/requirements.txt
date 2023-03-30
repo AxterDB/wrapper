@@ -4,4 +4,5 @@ sphinxcontrib-websupport==1.2.4
 myst-parser==1.0.0
 sphinxext-opengraph==0.8.1
 sphinx-copybutton==0.5.1
+furo@ git+https://github.com/pradyunsg/furo@193643f
 sphinx-autodoc-typehints==1.22
