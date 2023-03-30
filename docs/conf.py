@@ -15,7 +15,6 @@ release = 'v0.1-alpha'
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 extensions = [
-    # "builder",
     "sphinx.ext.autodoc",
     "sphinx.ext.extlinks",
     "sphinx.ext.intersphinx",
@@ -23,11 +22,7 @@ extensions = [
     "sphinx.ext.viewcode",
     "sphinx.ext.duration",
     "sphinxcontrib_trio",
-    # "details",
     "attributetable",
-    "resourcelinks",
-    "nitpick_file_ignorer",
-    "myst_parser",
     "sphinx_copybutton",
     "sphinxext.opengraph",
     "sphinx_autodoc_typehints",
