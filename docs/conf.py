@@ -33,6 +33,8 @@ extensions = [
     "sphinxext.opengraph",
     "sphinx_autodoc_typehints",
 ]
+always_document_param_types = True
+toc_object_entries_show_parents = "hide"
 
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
