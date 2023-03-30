@@ -36,6 +36,9 @@ extensions = [
 always_document_param_types = True
 toc_object_entries_show_parents = "hide"
 
+autodoc_member_order = "bysource"
+autodoc_typehints = "none"
+
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
