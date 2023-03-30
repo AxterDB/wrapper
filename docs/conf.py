@@ -7,7 +7,7 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'AxterDB'
-copyright = '2023, ItsNeil'
+copyright = '2023, AxterDB'
 author = 'ItsNeil'
 release = 'v0.1-alpha'
 
