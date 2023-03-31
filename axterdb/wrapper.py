@@ -21,10 +21,10 @@ class AxterDBClient():
         self.host: str = host
         self.show_keys: bool = show_keys
     
-        self.headers: dict = {"KEY": f"{self.key}"}
-        self.session: aiohttp.ClientSession = None
-        self.connected: bool = False
-        self.accepted_types = ["TEXT", "INT", "REAL", "NULL"]
+        self._headers: dict = {"KEY": f"{self.key}"}
+        self._session: aiohttp.ClientSession = None
+        self._connected: bool = False
+        self._accepted_types = ["TEXT", "INT", "REAL", "NULL"]
 
 
     async def connect(self):
@@ -33,20 +33,20 @@ class AxterDBClient():
         Connects to the database, checks if everything is correct.
 
         """
-        logging.log(logging.INFO, "Connection to database started.")
-        self.session = aiohttp.ClientSession()
-        await self.check_instance()
-        await self.check_access()
-        atexit.register(self.close)
-        self.connected = True
-        logging.log(logging.INFO, "Database connection established")
+        logger.log(logging.INFO, "Connection to database started.")
+        self._session = aiohttp.ClientSession()
+        await self._check_instance()
+        await self._check_access()
+        atexit.register(self._close)
+        self._connected = True
+        logger.log(logging.INFO, "Database connection established")
 
 
     def route(self, path: str = "") -> str:
         return f"http://{self.host}{path}"
 
 
-    async def check_instance(self) -> None:
+    async def _check_instance(self) -> None:
         """|coro|
 
         Check if the IP specified is a correct instance
@@ -60,8 +60,8 @@ class AxterDBClient():
         AlreadyConnected
             Already connected to the specified database.
         """
-        logging.log(logging.INFO, "Checking instance.")
-        if self.connected:
+        logger.log(logging.INFO, "Checking instance.")
+        if self._connected:
             raise AlreadyConnected(self.host, self.key, self.table, self.show_keys)            
         try:
             ip = self.host.split(":")[0]
@@ -75,9 +75,9 @@ class AxterDBClient():
                     raise ConnectionFailure(self.host, self.key, self.show_keys)
         except ClientConnectionError as e:
             raise ConnectionFailure(self.host, self.key, self.show_keys)
-        logging.log(logging.INFO, "Instance checked")
+        logger.log(logging.INFO, "Instance checked")
 
-    async def check_access(self) -> None:
+    async def _check_access(self) -> None:
         """|coro|
 
         Checks if the specified key has access to the specified database.
@@ -89,10 +89,10 @@ class AxterDBClient():
         AlreadyConnected
             Already connected to the specified database.
         """
-        logging.log(logging.INFO, f"Checking access for key {self.key} to {self.name}")
+        logger.log(logging.INFO, f"Checking access for key {self.key} to {self.name}")
         if self.connected:
             raise AlreadyConnected(self.host, self.key, self.table, self.show_keys)
-        async with self.session.get(self.route(f"/me"), headers=self.headers) as response:
+        async with self._session.get(self.route(f"/me"), headers=self._headers) as response:
             if response.status == 200:
                 data = await response.json()
                 databases = data["detail"]["data"]["Databases"]
@@ -124,12 +124,13 @@ class AxterDBClient():
         HTTPException
             Retrieving the application failed.
         """
+        if not self._connected:
+            raise NotConnected()
         rows_dict = rows
         for key in rows_dict:
-            if rows_dict[key].upper() not in self.accepted_types:
+            if rows_dict[key].upper() not in self._accepted_types:
                 raise UnAcceptedType(rows_dict[key].upper())
-        print(rows_dict)
-        async with self.session.post(self.route(f"/database/{self.name}/create?table={table}"), headers=self.headers, json=rows_dict) as response:
+        async with self.session.post(self.route(f"/database/{self.name}/create?table={table}"), headers=self._headers, json=rows_dict) as response:
             if response.status == 200:
                 return True
             elif response.status == 401:
@@ -146,11 +147,11 @@ class AxterDBClient():
             else:
                 return False
 
-    async def get(self, table: str, amount: str | None = None, **kwargs):
-        if not self.connected:
+    async def get(self, table: str, amount: str | None = None, **kwargs) -> list:
+        if not self._connected:
             raise NotConnected()
         data = kwargs
-        headers = self.headers
+        headers = self._headers
         headers["table"] = table
         if amount: headers["amount"] = amount 
         async with self.session.get(self.route(f"/database/{self.name}/select"), headers=headers, json=data) as response:
@@ -159,7 +160,7 @@ class AxterDBClient():
                 rows = data["detail"]["rows"]
                 return rows
             
-    async def insert(self, table, **data):
+    async def insert(self, table, **data) -> bool:
         if not self.connected:
             raise NotConnected()
         data = data
@@ -173,9 +174,9 @@ class AxterDBClient():
                 raise InvalidColumn(data["detail"].split(' ').pop(0))
 
     async def get_all_tables(self) -> None:
-        if not self.connected:
+        if not self._connected:
             raise NotConnected()
-        async with self.session.get(self.route(f"/database/{self.name}/get"), headers=self.headers) as response:
+        async with self.session.get(self.route(f"/database/{self.name}/get"), headers=self._headers) as response:
             if response.status == 200:
                 data = await response.json()
                 tables = data["detail"]["tables"]
@@ -184,9 +185,9 @@ class AxterDBClient():
                 raise InvalidKey()
             
     async def check_table(self, table: str) -> None:
-        if not self.connected:
+        if not self._connected:
             raise NotConnected()
-        async with self.session.get(self.route(f"/database/{self.name}/get?table={table}"), headers=self.headers) as response:
+        async with self.session.get(self.route(f"/database/{self.name}/get?table={table}"), headers=self._headers) as response:
             if response.status == 200:
                 return True
             elif response.status == 404:
@@ -194,5 +195,5 @@ class AxterDBClient():
             elif response.status == 401:
                 raise InvalidKey()
 
-    def close(self) -> None:
+    def _close(self) -> None:
         asyncio.run(self.session.close())
