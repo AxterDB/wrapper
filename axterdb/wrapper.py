@@ -157,6 +157,28 @@ class AxterDBClient():
                 return False
 
     async def get(self, table: str, amount: str | None = None, **kwargs) -> list:
+        """|coro|
+        Get data from a table
+
+        Parameters
+        ----------
+        table: :class:`str`
+            The table to get data from.
+        amount: :class:`str`
+            The amount of data to get.
+        **kwargs
+            Additional arguments are used as condition arguments (WHERE in SQL)  
+            
+        Returns
+        -------
+        :class:`list`
+            Returns a list of lists containing data, or an empty list if no data was found.
+
+        Raises
+        ------
+        NotConnected
+            Not connected to the database.
+        """
         if not self._connected:
             raise NotConnected()
         data = kwargs
