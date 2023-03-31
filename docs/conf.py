@@ -55,3 +55,7 @@ html_logo = "./images/axterdb_logo.png"
 
 html_theme = 'furo'
 html_static_path = ['_static']
+
+html_theme_options = {
+    "announcement": "AxterDB is currently in development, along with this documentation.",
+}
