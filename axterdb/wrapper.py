@@ -105,24 +105,30 @@ class AxterDBClient():
             
     async def create_table(self, table: str, **rows) -> None:
         """|coro|
-        Retrieves a :class:`.PartialAppInfo` from an application ID.
+        Creates a table on the database
 
         Parameters
         ----------
-        application_id: :class:`int`
+        table: :class:`str`
             The application ID to retrieve information from.
 
         Returns
         -------
-        :class:`.PartialAppInfo`
-            The application information.
+        :class:`bool`
+            Returns `True` if function was executed sucessfully. 
 
         Raises
         ------
-        NotFound
-            An application with this ID does not exist.
-        HTTPException
-            Retrieving the application failed.
+        NotConnected
+            Not connected to the database.
+        UnAcceptedType
+            Invalid row type.
+        InvalidTable
+            Table not provided.
+        InvalidRows
+            Rows not provided.
+        TableAlreadyExists
+            Table with that name already exists.
         """
         if not self._connected:
             raise NotConnected()
