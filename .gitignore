@@ -90,16 +90,6 @@ ipython_config.py
 .env.local
 .env
 
-
-#DBL TOken file
-dbl.py
-/dbl.py
-.dbl.py
-/.dbl.py
-dbl
-dbl.py/
-dbl.py\
-
 # pyenv
 .python-version
 
