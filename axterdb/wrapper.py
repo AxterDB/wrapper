@@ -229,6 +229,21 @@ class AxterDBClient():
             # TODO: Add errors from status codes.
 
     async def get_all_tables(self) -> None:
+        """|coro|
+        Get all tables of the database
+            
+        Returns
+        -------
+        :class:`list`
+            Returns a list of table names
+
+        Raises
+        ------
+        NotConnected
+            Not connected to the database.
+        InvalidKey
+            Key is invalid.
+        """
         if not self._connected:
             raise NotConnected()
         async with self.session.get(self.route(f"/database/{self.name}/get"), headers=self._headers) as response:
