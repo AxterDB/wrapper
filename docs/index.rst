@@ -14,6 +14,8 @@ AxterDB is a modern, easy to use, Pythonic, and async ready API Wrapper.
 - Easy to use with an object oriented design
 - Optimised for both speed and memory
 
+.. _getting_started:
+
 Getting started
 ---------------
 
