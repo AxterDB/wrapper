@@ -103,7 +103,7 @@ class AxterDBClient():
             else:
                 raise InvalidKey()
             
-    async def create_table(self, table: str, **rows) -> None:
+    async def create_table(self, table: str, **columns) -> None:
         """|coro|
         Creates a table on the database
 
@@ -111,8 +111,8 @@ class AxterDBClient():
         ----------
         table: :class:`str`
             The table name to create.
-        **rows
-            Additional arguments are used as rows for the table.
+        **columns
+            Additional arguments are used as columns for the table.
 
             
         Returns
@@ -135,11 +135,11 @@ class AxterDBClient():
         """
         if not self._connected:
             raise NotConnected()
-        rows_dict = rows
-        for key in rows_dict:
-            if rows_dict[key].upper() not in self._accepted_types:
-                raise UnAcceptedType(rows_dict[key].upper())
-        async with self.session.post(self.route(f"/database/{self.name}/create?table={table}"), headers=self._headers, json=rows_dict) as response:
+        columns_dict = columns
+        for key in columns_dict:
+            if columns_dict[key].upper() not in self._accepted_types:
+                raise UnAcceptedType(columns_dict[key].upper())
+        async with self.session.post(self.route(f"/database/{self.name}/create?table={table}"), headers=self._headers, json=columns_dict) as response:
             if response.status == 200:
                 return True
             elif response.status == 401:
@@ -193,7 +193,7 @@ class AxterDBClient():
                 return tables
             elif response.status == 401:
                 raise InvalidKey()
-            
+
     async def check_table(self, table: str) -> None:
         if not self._connected:
             raise NotConnected()
