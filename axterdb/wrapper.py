@@ -256,6 +256,26 @@ class AxterDBClient():
             # TODO: Add errors from status codes.
 
     async def check_table(self, table: str) -> None:
+        """|coro|
+        Check if a table exists
+            
+        Parameters
+        ----------
+
+        table: :class:`str`
+
+        Returns
+        -------
+        :class:`bool`
+            Returns True if table exists, else False
+
+        Raises
+        ------
+        NotConnected
+            Not connected to the database.
+        InvalidKey
+            Key is invalid.
+        """
         if not self._connected:
             raise NotConnected()
         async with self.session.get(self.route(f"/database/{self.name}/get?table={table}"), headers=self._headers) as response:
