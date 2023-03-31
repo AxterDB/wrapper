@@ -111,7 +111,10 @@ class AxterDBClient():
         ----------
         table: :class:`str`
             The table name to create.
+        **rows
+            Additional arguments are used as rows for the table.
 
+            
         Returns
         -------
         :class:`bool`
@@ -154,32 +157,6 @@ class AxterDBClient():
                 return False
 
     async def get(self, table: str, amount: str | None = None, **kwargs) -> list:
-        """|coro|
-        Gets data from a table
-
-        Parameters
-        ----------
-        table: :class:`str`
-            The application ID to retrieve information from.
-
-        Returns
-        -------
-        :class:`bool`
-            Returns `True` if function was executed sucessfully. 
-
-        Raises
-        ------
-        NotConnected
-            Not connected to the database.
-        UnAcceptedType
-            Invalid row type.
-        InvalidTable
-            Table not provided.
-        InvalidRows
-            Rows not provided.
-        TableAlreadyExists
-            Table with that name already exists.
-        """
         if not self._connected:
             raise NotConnected()
         data = kwargs
@@ -191,6 +168,7 @@ class AxterDBClient():
                 data = await response.json()
                 rows = data["detail"]["rows"]
                 return rows
+            # TODO: Add errors for this
             
     async def insert(self, table, **data) -> bool:
         if not self.connected:
