@@ -28,7 +28,6 @@ extensions = [
     "sphinx.ext.viewcode",
     "sphinx.ext.duration",
     "sphinxcontrib_trio",
-    "attributetable",
     "sphinx_copybutton",
     "sphinxext.opengraph",
     "sphinx_autodoc_typehints",
