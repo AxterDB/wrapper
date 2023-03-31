@@ -156,7 +156,7 @@ class AxterDBClient():
             else:
                 return False
 
-    async def get(self, table: str, amount: str | None = None, **kwargs) -> list:
+    async def get(self, table: str, amount: str = None, **kwargs) -> list:
         """|coro|
         Get data from a table
 
