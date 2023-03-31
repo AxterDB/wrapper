@@ -3,18 +3,20 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to AxterDB's documentation!
-===================================
+Welcome to AxterDB!
+-------------------
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+AxterDB is a modern, easy to use, Pythonic, and async ready API Wrapper.
 
+**Features:**
 
+- Modern Pythonic API using ``async``\/``await`` syntax
+- Easy to use with an object oriented design
+- Optimised for both speed and memory
 
-Indices and tables
-==================
+Getting started
+---------------
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+Is this your first time using the library? This is the place to get started!
+
+- **First steps:** :doc:`installing`
