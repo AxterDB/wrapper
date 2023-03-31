@@ -192,7 +192,29 @@ class AxterDBClient():
                 return rows
             # TODO: Add errors for this
             
-    async def insert(self, table, **data) -> bool:
+    async def insert(self, table: str, **data) -> bool:
+        """|coro|
+        Insert data into a table
+
+        Parameters
+        ----------
+        table: :class:`str`
+            The table to insert data to.
+        **data
+            Additional arguments are used as data to insert. 
+            
+        Returns
+        -------
+        :class:`bool`
+            Returns True if query executed sucessfully.
+
+        Raises
+        ------
+        NotConnected
+            Not connected to the database.
+        InvalidColumn
+            Invalid column provided.
+        """
         if not self.connected:
             raise NotConnected()
         data = data
