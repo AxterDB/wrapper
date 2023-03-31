@@ -182,6 +182,7 @@ class AxterDBClient():
             elif response.status == 422:
                 data = await response.json()
                 raise InvalidColumn(data["detail"].split(' ').pop(0))
+            # TODO: Add errors from status codes.
 
     async def get_all_tables(self) -> None:
         if not self._connected:
@@ -193,6 +194,7 @@ class AxterDBClient():
                 return tables
             elif response.status == 401:
                 raise InvalidKey()
+            # TODO: Add errors from status codes.
 
     async def check_table(self, table: str) -> None:
         if not self._connected:
@@ -204,6 +206,7 @@ class AxterDBClient():
                 return False
             elif response.status == 401:
                 raise InvalidKey()
+            # TODO: Add errors from status codes.
 
     def _close(self) -> None:
         asyncio.run(self.session.close())
