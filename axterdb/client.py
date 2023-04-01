@@ -9,6 +9,7 @@ import atexit
 import logging
 
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 file_handler = logging.FileHandler('axterdb.log')
 logger.addHandler(file_handler)
 
