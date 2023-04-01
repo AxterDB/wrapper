@@ -298,8 +298,15 @@ class AdminClient(Client):
         if not self._connected:
             raise NotConnected()
         admin = int(admin)
-        async with self._session.post(self.route(f"/admin/keys/create?name={name}&admin={admin}"), self._headers) as response:
+        async with self._session.post(self.route(f"/admin/keys/create?name={name}&admin={admin}"), headers=self._headers) as response:
             if response.status == 200:
                 data = await response.json()
                 key = data["detail"]["data"]["key"]
                 return key
+            
+    async def delete_user(self, key: str) -> True:
+        if not self._connected:
+            raise NotConnected()
+        async with self._session.post(self.route(f"/admin/keys/delete?key={key}"), headers=self._headers) as response:
+            if response.status == 200:
+                return True
