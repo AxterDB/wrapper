@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 file_handler = logging.FileHandler('axterdb.log')
 logger.addHandler(file_handler)
 
-class AxterDBClient():
+class Client():
     def __init__(self, *, name: str, key: str, host: str, show_keys: bool = False):
         super().__init__()
 

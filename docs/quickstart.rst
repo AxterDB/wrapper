@@ -39,7 +39,7 @@ There's a lot going on here, so let's walk you through it step by step:
 
 1. The first line just imports the library, if this raises a `ModuleNotFoundError` or `ImportError`
    then head on over to :ref:`installing` section to properly install.
-2. Next, we create an instance of a :class:`AxterDBClient`. This client is our connection to Discord.
+2. Next, we create an instance of a :class:`Client`. This client is our connection to Discord.
 
 .. note::
     

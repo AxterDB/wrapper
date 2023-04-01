@@ -3,6 +3,6 @@
 AxterDB Client
 ==============
 
-.. autoclass:: AxterDBClient
+.. autoclass:: Client
     :members:
     :inherited-members:
