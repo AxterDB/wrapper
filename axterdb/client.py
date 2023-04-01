@@ -294,7 +294,7 @@ class AdminClient(Client):
     def __init__(self, *, name: str, key: str, host: str, show_keys: bool = False):
         super().__init__(name=name, key=key, host=host, show_keys=show_keys)
 
-    async def create_user(self, name: str, admin: bool = False):
+    async def create_user(self, name: str, admin: bool = False) -> str:
         """|coro|
         Create a user.
             
