@@ -295,6 +295,19 @@ class AdminClient(Client):
         super().__init__(name=name, key=key, host=host, show_keys=show_keys)
 
     async def create_user(self, name: str, admin: bool = False):
+        """|coro|
+        Create a user.
+            
+        Returns
+        -------
+        :class:`str`
+            Generated key for the created user.
+
+        Raises
+        ------
+        NotConnected
+            Not connected to the database.
+        """
         if not self._connected:
             raise NotConnected()
         admin = int(admin)
@@ -305,6 +318,19 @@ class AdminClient(Client):
                 return key
             
     async def delete_user(self, key: str) -> True:
+        """|coro|
+        Delete a user.
+            
+        Returns
+        -------
+        :class:`bool`
+            Returns `True` if user was deleted sucessfully.
+
+        Raises
+        ------
+        NotConnected
+            Not connected to the database.
+        """
         if not self._connected:
             raise NotConnected()
         async with self._session.post(self.route(f"/admin/keys/delete?key={key}"), headers=self._headers) as response:
