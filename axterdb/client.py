@@ -15,7 +15,6 @@ logger.addHandler(file_handler)
 
 class Client():
     def __init__(self, *, name: str, key: str, host: str, show_keys: bool = False):
-        super().__init__()
 
         self.name: str = name
         self.key: str = key
