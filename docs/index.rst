@@ -32,4 +32,6 @@ These pages go into great detail about everything the wrapper can do.
 .. toctree::
   :maxdepth: 1
 
+  installing.rst
+  quickstart.rst
   clients.rst
