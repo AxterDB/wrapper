@@ -22,6 +22,7 @@ Getting started
 Is this your first time using the library? This is the place to get started!
 
 - **First steps:** :doc:`installing` | :doc:`quickstart`
+- **Examples:** Many examples are available in the `link <https://github.com/AxterDB/wrapper/tree/main/examples>`.
 
 Manuals
 -------
