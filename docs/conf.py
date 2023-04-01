@@ -52,6 +52,7 @@ rst_prolog = """
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 html_logo = "./images/axterdb_logo.png"
+html_favicon = "./images/axterdb_logo.ico"
 
 html_theme = 'furo'
 html_static_path = ['_static']
