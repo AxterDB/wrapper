@@ -5,7 +5,7 @@
 .. _intro:
 
 Installing AxterDB
-=================
+==================
 
 This is the documentation for AxterDB, a library for Python to help with interacting with AxterDB.
 
