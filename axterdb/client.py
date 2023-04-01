@@ -89,7 +89,7 @@ class Client():
         AlreadyConnected
             Already connected to the specified database.
         """
-        logger.log(logging.INFO, f"Checking access for key {self.key} to {self.name}")
+        logger.log(logging.INFO, f"Checking access for key {self.key if self.show_keys else '[HIDDEN]'} to {self.name}")
         if self._connected:
             raise AlreadyConnected(self.host, self.key, self.table, self.show_keys)
         async with self._session.get(self.route(f"/me"), headers=self._headers) as response:
