@@ -70,7 +70,7 @@ class Client():
             raise InvalidInstanceIP(self.host)
         
         try:
-            async with self.session.get(self.route("/")) as response:
+            async with self._session.get(self.route("/")) as response:
                 if response.status != 200:
                     raise ConnectionFailure(self.host, self.key, self.show_keys)
         except ClientConnectionError as e:
@@ -90,7 +90,7 @@ class Client():
             Already connected to the specified database.
         """
         logger.log(logging.INFO, f"Checking access for key {self.key} to {self.name}")
-        if self.connected:
+        if self._connected:
             raise AlreadyConnected(self.host, self.key, self.table, self.show_keys)
         async with self._session.get(self.route(f"/me"), headers=self._headers) as response:
             if response.status == 200:
@@ -139,7 +139,7 @@ class Client():
         for key in columns_dict:
             if columns_dict[key].upper() not in self._accepted_types:
                 raise UnAcceptedType(columns_dict[key].upper())
-        async with self.session.post(self.route(f"/database/{self.name}/create?table={table}"), headers=self._headers, json=columns_dict) as response:
+        async with self._session.post(self.route(f"/database/{self.name}/create?table={table}"), headers=self._headers, json=columns_dict) as response:
             if response.status == 200:
                 return True
             elif response.status == 401:
@@ -185,7 +185,7 @@ class Client():
         headers = self._headers
         headers["table"] = table
         if amount: headers["amount"] = amount 
-        async with self.session.get(self.route(f"/database/{self.name}/select"), headers=headers, json=data) as response:
+        async with self._session.get(self.route(f"/database/{self.name}/select"), headers=headers, json=data) as response:
             if response.status == 200:
                 data = await response.json()
                 rows = data["detail"]["rows"]
@@ -215,12 +215,12 @@ class Client():
         InvalidColumn
             Invalid column provided.
         """
-        if not self.connected:
+        if not self._connected:
             raise NotConnected()
         data = data
         headers = self.headers
         headers["table"] = table
-        async with self.session.get(self.route(f"/database/{self.name}/insert"), headers=self.headers, json=data) as response:
+        async with self._session.get(self.route(f"/database/{self.name}/insert"), headers=self.headers, json=data) as response:
             if response.status == 200:
                 return True
             elif response.status == 422:
@@ -246,7 +246,7 @@ class Client():
         """
         if not self._connected:
             raise NotConnected()
-        async with self.session.get(self.route(f"/database/{self.name}/get"), headers=self._headers) as response:
+        async with self._session.get(self.route(f"/database/{self.name}/get"), headers=self._headers) as response:
             if response.status == 200:
                 data = await response.json()
                 tables = data["detail"]["tables"]
@@ -278,7 +278,7 @@ class Client():
         """
         if not self._connected:
             raise NotConnected()
-        async with self.session.get(self.route(f"/database/{self.name}/get?table={table}"), headers=self._headers) as response:
+        async with self._session.get(self.route(f"/database/{self.name}/get?table={table}"), headers=self._headers) as response:
             if response.status == 200:
                 return True
             elif response.status == 404:
@@ -288,4 +288,4 @@ class Client():
             # TODO: Add errors from status codes.
 
     def _close(self) -> None:
-        asyncio.run(self.session.close())
+        asyncio.run(self._session.close())
