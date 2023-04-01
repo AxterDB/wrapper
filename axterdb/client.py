@@ -293,3 +293,46 @@ class Client():
 class AdminClient(Client):
     def __init__(self, *, name: str, key: str, host: str, show_keys: bool = False):
         super().__init__(name=name, key=key, host=host, show_keys=show_keys)
+
+    async def create_user(self, name: str, admin: bool = False) -> str:
+        """|coro|
+        Create a user.
+            
+        Returns
+        -------
+        :class:`str`
+            Generated key for the created user.
+
+        Raises
+        ------
+        NotConnected
+            Not connected to the database.
+        """
+        if not self._connected:
+            raise NotConnected()
+        admin = int(admin)
+        async with self._session.post(self.route(f"/admin/keys/create?name={name}&admin={admin}"), headers=self._headers) as response:
+            if response.status == 200:
+                data = await response.json()
+                key = data["detail"]["data"]["key"]
+                return key
+            
+    async def delete_user(self, key: str) -> True:
+        """|coro|
+        Delete a user.
+            
+        Returns
+        -------
+        :class:`bool`
+            Returns `True` if user was deleted sucessfully.
+
+        Raises
+        ------
+        NotConnected
+            Not connected to the database.
+        """
+        if not self._connected:
+            raise NotConnected()
+        async with self._session.post(self.route(f"/admin/keys/delete?key={key}"), headers=self._headers) as response:
+            if response.status == 200:
+                return True
