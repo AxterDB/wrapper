@@ -289,3 +289,7 @@ class Client():
 
     def _close(self) -> None:
         asyncio.run(self._session.close())
+        
+class AdminClient(Client):
+    def __init__(self, *, name: str, key: str, host: str, show_keys: bool = False):
+        super().__init__(name=name, key=key, host=host, show_keys=show_keys)
