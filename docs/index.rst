@@ -31,4 +31,4 @@ These pages go into great detail about everything the wrapper can do.
 .. toctree::
   :maxdepth: 1
 
-  client.rst
+  clients.rst
