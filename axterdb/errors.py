@@ -53,3 +53,7 @@ class InvalidColumn(Exception):
     def __init__(self, column: str):
         self.column = column
         super().__init__(f"{self.column} is not a column in the table!")
+
+class UnknownError(Exception):
+    def __init__(self, status_code):
+        super().__init__(f"There was an error while trying to perform this action, if you see this, please report this issue!\nSTATUS CODE: {status_code}")
