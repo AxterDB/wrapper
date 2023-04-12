@@ -36,6 +36,8 @@ It looks something like this:
         await client.insert(table="test", row1="some text", row=2, row3=3.3)
         await client.get(table="test", amount=1)
 
+    asyncio.run(main())
+
 Let's name this file ``example_db.py``. Make sure not to name it ``axterdb.py`` as that'll conflictwith the library.
 
 There's a lot going on here, so let's walk you through it step by step:
