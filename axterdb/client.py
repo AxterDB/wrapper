@@ -10,7 +10,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
-file_handler = logging.FileHandler('axterdb.log')
+file_handler = logging.FileHandler('axterdb.log', mode="w")
 logger.addHandler(file_handler)
 
 class Client():
