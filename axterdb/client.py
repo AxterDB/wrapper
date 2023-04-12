@@ -183,7 +183,7 @@ class Client():
         data = kwargs
         headers = self._headers
         headers["table"] = table
-        if amount: headers["amount"] = amount 
+        if amount: headers["amount"] = str(amount)
         async with self._session.get(self.route(f"/database/{self.name}/select"), headers=headers, json=data) as response:
             if response.status == 200:
                 data = await response.json()
