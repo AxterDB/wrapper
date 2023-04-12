@@ -6,12 +6,9 @@ import asyncio
 
 import ipaddress
 import atexit
-import logging
+from loguru import logger
 
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
-file_handler = logging.FileHandler('axterdb.log', mode="w")
-logger.addHandler(file_handler)
+logger.add("axterdb.log", retention=1)
 
 class Client():
     def __init__(self, *, name: str, key: str, host: str, show_keys: bool = False):
@@ -33,13 +30,13 @@ class Client():
         Connects to the database, checks if everything is correct.
 
         """
-        logger.log(logging.INFO, "Connection to database started.")
+        logger.log("INFO", "Connection to database started.")
         self._session = aiohttp.ClientSession()
         await self._check_instance()
         await self._check_access()
         atexit.register(self._close)
         self._connected = True
-        logger.log(logging.INFO, "Database connection established")
+        logger.log("INFO", "Database connection established")
 
 
     def route(self, path: str = "") -> str:
@@ -60,7 +57,7 @@ class Client():
         AlreadyConnected
             Already connected to the specified database.
         """
-        logger.log(logging.INFO, "Checking instance.")
+        logger.log("INFO", "Checking instance.")
         if self._connected:
             raise AlreadyConnected(self.host, self.key, self.table, self.show_keys)            
         try:
@@ -75,7 +72,7 @@ class Client():
                     raise ConnectionFailure(self.host, self.key, self.show_keys)
         except ClientConnectionError as e:
             raise ConnectionFailure(self.host, self.key, self.show_keys)
-        logger.log(logging.INFO, "Instance checked")
+        logger.log("INFO", "Instance checked")
 
     async def _check_access(self) -> None:
         """|coro|
@@ -89,7 +86,7 @@ class Client():
         AlreadyConnected
             Already connected to the specified database.
         """
-        logger.log(logging.INFO, f"Checking access for key {self.key if self.show_keys else '[HIDDEN]'} to {self.name}")
+        logger.log("INFO", f"Checking access for key {self.key if self.show_keys else '[HIDDEN]'} to {self.name}")
         if self._connected:
             raise AlreadyConnected(self.host, self.key, self.table, self.show_keys)
         async with self._session.get(self.route(f"/me"), headers=self._headers) as response:
