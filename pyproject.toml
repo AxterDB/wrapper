@@ -58,7 +58,6 @@ dependencies = [
     "aiohttp",
     "asyncio",
     "ipaddress",
-    "loguru",
     'importlib-metadata; python_version<"3.8"',
 ]
 
