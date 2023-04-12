@@ -149,10 +149,11 @@ class Client():
                     raise InvalidTable()
                 elif "rows" in error:
                     raise InvalidRows()
+                raise UnknownError(response.status)
             elif response.status == 409:
                 raise TableAlreadyExists(table)                
             else:
-                return False
+                raise UnknownError(response.status)
 
     async def get(self, table: str, amount: str = None, **kwargs) -> list:
         """|coro|
@@ -188,6 +189,7 @@ class Client():
                 data = await response.json()
                 rows = data["detail"]["rows"]
                 return rows
+            raise UnknownError(response.status)
             # TODO: Add errors for this
             
     async def insert(self, table: str, **data) -> bool:
@@ -224,6 +226,7 @@ class Client():
             elif response.status == 422:
                 data = await response.json()
                 raise InvalidColumn(data["detail"].split(' ').pop(0))
+            raise UnknownError(response.status)
             # TODO: Add errors from status codes.
 
     async def get_all_tables(self) -> None:
@@ -251,6 +254,7 @@ class Client():
                 return tables
             elif response.status == 401:
                 raise InvalidKey()
+            raise UnknownError(response.status)
             # TODO: Add errors from status codes.
 
     async def check_table(self, table: str) -> None:
@@ -283,6 +287,7 @@ class Client():
                 return False
             elif response.status == 401:
                 raise InvalidKey()
+            raise UnknownError(response.status)
             # TODO: Add errors from status codes.
 
     def _close(self) -> None:
@@ -314,6 +319,7 @@ class AdminClient(Client):
                 data = await response.json()
                 key = data["detail"]["data"]["key"]
                 return key
+            raise UnknownError(response.status)
             
     async def delete_user(self, key: str) -> True:
         """|coro|
@@ -334,3 +340,4 @@ class AdminClient(Client):
         async with self._session.post(self.route(f"/admin/keys/delete?key={key}"), headers=self._headers) as response:
             if response.status == 200:
                 return True
+            raise UnknownError(response.status)
