@@ -218,9 +218,9 @@ class Client():
         if not self._connected:
             raise NotConnected()
         data = data
-        headers = self.headers
+        headers = self._headers
         headers["table"] = table
-        async with self._session.get(self.route(f"/database/{self.name}/insert"), headers=self.headers, json=data) as response:
+        async with self._session.get(self.route(f"/database/{self.name}/insert"), headers=self._headers, json=data) as response:
             if response.status == 200:
                 return True
             elif response.status == 422:
