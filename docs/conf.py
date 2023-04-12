@@ -58,5 +58,5 @@ html_theme = 'furo'
 html_static_path = ['_static']
 
 html_theme_options = {
-    "announcement": "AxterDB is currently in development, along with this documentation.",
+    "announcement": "Welcome to AxterDB Documentation! We are currently in limited beta.",
 }
