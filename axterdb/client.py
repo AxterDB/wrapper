@@ -189,6 +189,11 @@ class Client():
                 data = await response.json()
                 rows = data["detail"]["rows"]
                 return rows
+            elif response.status == 422:
+                data = await response.json()
+                error = data["detail"]["message"]
+                table_name = error.replace("No such column found with the name", "")
+                raise InvalidColumn(table_name)
             raise UnknownError(response.status)
             # TODO: Add errors for this
             
