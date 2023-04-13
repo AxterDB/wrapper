@@ -59,7 +59,7 @@ class Client():
         """
         logger.log(logging.INFO, "Checking instance.")
         if self._connected:
-            raise AlreadyConnected(self.host, self.key, self.table, self.show_keys)            
+            raise AlreadyConnected(self.host, self.key, self.name, self.show_keys)            
         try:
             ip = self.host.split(":")[0]
             ipaddress.ip_address(ip)
@@ -88,7 +88,7 @@ class Client():
         """
         logger.log(logging.INFO, f"Checking access for key {self.key if self.show_keys else '[HIDDEN]'} to {self.name}")
         if self._connected:
-            raise AlreadyConnected(self.host, self.key, self.table, self.show_keys)
+            raise AlreadyConnected(self.host, self.key, self.name, self.show_keys)
         async with self._session.get(self.route(f"/me"), headers=self._headers) as response:
             if response.status == 200:
                 data = await response.json()
