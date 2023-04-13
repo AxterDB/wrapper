@@ -18,12 +18,11 @@ class Client():
         self.key: str = key
         self.host: str = host
         self.show_keys: bool = show_keys
-    
+
         self._headers: dict = {"KEY": f"{self.key}"}
         self._session: aiohttp.ClientSession = None
         self._connected: bool = False
         self._accepted_types = ["TEXT", "INT", "REAL", "NULL"]
-
 
     async def connect(self):
         """|coro|
@@ -178,6 +177,7 @@ class Client():
         NotConnected
             Not connected to the database.
         """
+        print(asyncio.get_event_loop().is_closed())
         if not self._connected:
             raise NotConnected()
         data = kwargs
