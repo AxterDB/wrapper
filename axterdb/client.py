@@ -220,7 +220,7 @@ class Client():
         data = data
         headers = self._headers
         headers["table"] = table
-        async with self._session.get(self.route(f"/database/{self.name}/insert"), headers=self._headers, json=data) as response:
+        async with self._session.get(self.route(f"/database/{self.name}/insert"), headers=headers, json=data) as response:
             if response.status == 200:
                 return True
             elif response.status == 422:
@@ -228,6 +228,16 @@ class Client():
                 raise InvalidColumn(data["detail"].split(' ').pop(0))
             raise UnknownError(response.status)
             # TODO: Add errors from status codes.
+
+    async def delete(self, table: str, **data) -> bool:
+        if not self._connected:
+            raise NotConnected()
+        data = data
+        headers = self._headers
+        headers["table"] = table
+        async with self._session.get(self.route(f"/database/{self.name}/delete"), headers=headers, json=data) as response:
+            if response.status == 200:
+                return True
 
     async def get_all_tables(self) -> None:
         """|coro|
