@@ -268,6 +268,16 @@ class Client():
             if response.status == 200:
                 return True
             raise UnknownError(response.status)
+        
+    async def delete_table(self, table: str) -> bool:
+        if not self._connected:
+            raise NotConnected()
+        headers = self._headers
+        headers["table"] = table
+        async with self._session.get(self.route(f"/database/{self.name}/delete_table"), headers=headers) as response:
+            if response.status == 200:
+                return True
+            raise UnknownError(response.status)
 
     async def get_all_tables(self) -> None:
         """|coro|
