@@ -7,6 +7,7 @@ import asyncio
 import ipaddress
 import atexit
 import logging
+import time
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(filename="axterdb.log", filemode="w", level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
@@ -18,6 +19,7 @@ class Client():
         self.key: str = key
         self.host: str = host
         self.show_keys: bool = show_keys
+        self.latency: float
 
         self._headers: dict = {"KEY": f"{self.key}"}
         self._session: aiohttp.ClientSession = None
@@ -89,7 +91,10 @@ class Client():
         logger.log(logging.INFO, f"Checking access for key {self.key if self.show_keys else '[HIDDEN]'} to {self.name}")
         if self._connected:
             raise AlreadyConnected(self.host, self.key, self.name, self.show_keys)
+        start_time = time.time()
         async with self._session.get(self.route(f"/me"), headers=self._headers) as response:
+            end_time = time.time()
+            self.latency: float = end_time - start_time
             if response.status == 200:
                 data = await response.json()
                 databases = data["detail"]["data"]["Databases"]
