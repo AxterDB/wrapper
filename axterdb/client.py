@@ -177,7 +177,6 @@ class Client():
         NotConnected
             Not connected to the database.
         """
-        print(asyncio.get_event_loop().is_closed())
         if not self._connected:
             raise NotConnected()
         data = kwargs
@@ -263,6 +262,7 @@ class Client():
         async with self._session.get(self.route(f"/database/{self.name}/delete"), headers=headers, json=data) as response:
             if response.status == 200:
                 return True
+            raise UnknownError(response.status)
 
     async def get_all_tables(self) -> None:
         """|coro|
