@@ -1,4 +1,4 @@
-Pycord
+AxterDB
 ======
 
 AxterDB is a modern, easy to use, feature-rich, and async ready API wrapper for AxterDB in Python.
