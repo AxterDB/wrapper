@@ -235,6 +235,26 @@ class Client():
             # TODO: Add errors from status codes.
 
     async def delete(self, table: str, **data) -> bool:
+        """|coro|
+        Deletes data from a table
+
+        Parameters
+        ----------
+        table: :class:`str`
+            The table to delete data from.
+        **data
+            Additional arguments are used as data to delete. 
+            
+        Returns
+        -------
+        :class:`bool`
+            Returns True if query executed sucessfully.
+
+        Raises
+        ------
+        NotConnected
+            Not connected to the database.
+        """
         if not self._connected:
             raise NotConnected()
         data = data
