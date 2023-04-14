@@ -270,6 +270,24 @@ class Client():
             raise UnknownError(response.status)
         
     async def delete_table(self, table: str) -> bool:
+        """|coro|
+        Deletes a table
+
+        Parameters
+        ----------
+        table: :class:`str`
+            The table to delete.
+            
+        Returns
+        -------
+        :class:`bool`
+            Returns True if query executed sucessfully.
+
+        Raises
+        ------
+        NotConnected
+            Not connected to the database.
+        """
         if not self._connected:
             raise NotConnected()
         headers = self._headers
