@@ -1,5 +1,14 @@
 AxterDB
 ======
+.. image:: https://img.shields.io/pypi/v/axterdb.svg
+   :target: https://pypi.python.org/pypi/axterdb
+   :alt: View on PyPi
+.. image:: https://img.shields.io/pypi/pyversions/axterdb.svg
+   :target: https://pypi.python.org/pypi/axterdb
+   :alt: v1.0.0
+.. image:: https://readthedocs.org/projects/axterdb/badge/?version=latest
+   :target: https://axterdb.readthedocs.io/en/latest/?badge=latest
+   :alt: Documentation Status
 
 AxterDB is a modern, easy to use, feature-rich, and async ready API wrapper for AxterDB in Python.
 
